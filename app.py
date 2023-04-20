@@ -10,33 +10,41 @@ app.config['SECRET_KEY'] = "secret"
 
 debug = DebugToolbarExtension(app)
 
-
 @app.get('/')
+def get_home():
+
+    return render_template("base.html", stories=stories.story_list)
+
+
+@app.get('/questions')
 def get_base():
     """
     display madlibs prompt at start of website
     with required parts to generate Madlib
     """
-    silly = stories.silly_story
-    sad = stories.sad_story
-    excited = stories.excited_story
-    x = 0
+
+    id = request.args.get('story_code')
+    print(id)
+
+    return render_template("questions.html",
+                           prompts = stories.story_access[id].prompts,
+                           stories=stories.story_list,
+                           story_code=stories.story_access[id].id)
 
 
-    return render_template("questions.html", prompts = stories.story_list[x].prompts)
-
-
-@app.get('/results')
-def get_results():
+@app.get('/<story_code>/results')
+def get_results(story_code):
     """
     Generate Madlib from inputted prompts
     """
 
-    print(request.args)
-    generated_madlib = stories.silly_story.get_result_text(request.args)
+    story = stories.story_access[story_code]
+    generated_madlib = story.get_result_text(request.args)
 
 
-    return render_template("results.html", generated_story=generated_madlib)
+    return render_template("results.html",
+                           generated_story=generated_madlib,
+                           story_code = story_code)
 
 
 """Each button on the page will instantiate that class"""

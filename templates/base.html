@@ -19,11 +19,12 @@
     Pick a story!
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" id="sad-story" href="/?story_code=">Sad</a>
-    <a class="dropdown-item" id="excited-story" href="/">Excited</a>
-    <a class="dropdown-item" id="silly-story" href="/">Silly</a>
+    {% for story in stories %}
+    <a class="dropdown-item" id="{{ story.id }}-story" href="/questions?story_code={{ story.id }}">{{ story.id }}</a>
+    {% endfor %}
   </div>
 </div>
+
 
 <!-- loop through dynamically create the option values -->
 
