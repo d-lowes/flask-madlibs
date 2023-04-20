@@ -50,3 +50,10 @@ excited_story = Story(
     ["noun", "verb"],
     """OMG!! OMG!! I love to {verb} a {noun}!"""
 )
+
+sad_story = Story(
+    ["noun", "verb"],
+    """Awe man, I hate {verb} a {noun}!"""
+)
+
+story_list = [silly_story, excited_story, sad_story]

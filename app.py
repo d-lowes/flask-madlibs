@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
 from flask_debugtoolbar import DebugToolbarExtension
 
-from stories import silly_story
+"""from stories import silly_story"""
+
+import stories
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "secret"
@@ -15,8 +17,13 @@ def get_base():
     display madlibs prompt at start of website
     with required parts to generate Madlib
     """
+    silly = stories.silly_story
+    sad = stories.sad_story
+    excited = stories.excited_story
+    x = 0
 
-    return render_template("questions.html", prompts = silly_story.prompts)
+
+    return render_template("questions.html", prompts = stories.story_list[x].prompts)
 
 
 @app.get('/results')
@@ -26,7 +33,10 @@ def get_results():
     """
 
     print(request.args)
-    generated_madlib = silly_story.get_result_text(request.args)
+    generated_madlib = stories.silly_story.get_result_text(request.args)
 
 
     return render_template("results.html", generated_story=generated_madlib)
+
+
+"""Each button on the page will instantiate that class"""
